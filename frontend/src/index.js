@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import LoginForm from './components/form/Form.jsx';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -19,7 +20,9 @@ const router = createBrowserRouter([
   },
   {
     path: "login",
-    element: <div>About</div>,
+    element: (
+      <LoginForm />
+    ),
   },
 ]);
 
@@ -30,4 +33,3 @@ root.render(
   </React.StrictMode>
 );
 
-reportWebVitals();
