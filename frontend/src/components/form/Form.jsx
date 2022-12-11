@@ -27,7 +27,7 @@ const FormPage = () => {
                             <Card.Body>
                                 <img
                                 alt=""
-                                src="/chat_form.png"
+                                src="/chat_form.svg"
                                 width="100"
                                 height="100"
                                 className="d-inline-block align-top"
@@ -46,6 +46,7 @@ const FormPage = () => {
                                     </Button>
                                 </Form>
                             </Card.Body>
+                            <Card.Footer className="text-muted">Нет аккаунта?</Card.Footer>
                         </Card>
                     </Col>
                 </Row>
