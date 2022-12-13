@@ -1,4 +1,4 @@
-import React from "react";=
+import React from "react";
 import { useFormik } from 'formik';
 import NavBar from "../../components/navBar";
 
