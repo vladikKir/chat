@@ -34,7 +34,7 @@ const LoginPage = () => {
     }),
     onSubmit: async (values) => {
       try {
-        const response = await axios.post('http://localhost:5001/api/v1/login', { username: values.username, password: values.password });
+        const response = await axios.post('api/v1/login', { username: values.username, password: values.password });
         console.log(response);
         logIn();
         navigate('/');
