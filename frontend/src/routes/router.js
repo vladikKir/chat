@@ -1,12 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom';
-import LoginPage from './login/login';
+import ChatPage from './chat/chat_page';
+import LoginPage from './login/login_page';
 import ErrorPage from './error_page';
 
 export default createBrowserRouter([
   {
     path: '/',
     element: (
-      <LoginPage />
+      <ChatPage />
     ),
     errorElement: (
       <ErrorPage />
