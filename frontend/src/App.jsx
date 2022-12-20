@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { useState } from 'react';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { RouterProvider } from 'react-router-dom';
@@ -22,13 +22,11 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-const App = () => {
-    return (
-    <AuthProvider>
-        <NavBar />
-        <RouterProvider router={router} />
-    </AuthProvider>
-    )
-}
+const App = () => (
+  <AuthProvider>
+    <NavBar />
+    <RouterProvider router={router} />
+  </AuthProvider>
+);
 
 export default App;

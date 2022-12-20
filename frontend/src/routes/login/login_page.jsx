@@ -16,8 +16,8 @@ const LoginPage = () => {
     }
     return (
       <div>Error</div>
-    )
-  }
+    );
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -35,11 +35,12 @@ const LoginPage = () => {
     onSubmit: async (values) => {
       try {
         const response = await axios.post('api/v1/login', { username: values.username, password: values.password });
-        console.log(response);
+        const { token } = response.data;
+        localStorage.setItem('userId', JSON.stringify({ token }));
         logIn();
         navigate('/');
       } catch (e) {
-          setErrorState(true);
+        setErrorState(true);
       }
     },
   });
