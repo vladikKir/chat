@@ -1,13 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { object, string } from 'yup';
 import { useFormik } from 'formik';
 import axios from 'axios';
-import AuthContext from '../../contexts/AuthContext';
 
 const LoginPage = () => {
   const [errorState, setErrorState] = useState(false);
-  const { logIn } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleError = () => {
@@ -37,7 +35,6 @@ const LoginPage = () => {
         const response = await axios.post('api/v1/login', { username: values.username, password: values.password });
         const { token } = response.data;
         localStorage.setItem('userId', JSON.stringify({ token }));
-        logIn();
         navigate('/');
       } catch (e) {
         setErrorState(true);

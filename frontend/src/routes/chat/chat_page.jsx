@@ -7,7 +7,7 @@ import { addChannels, channelsSelectors } from '../../slices/channels';
 import { addMessages, messagesSelectors } from '../../slices/messages';
 
 const ChatPage = () => {
-  const { loggedIn } = useAuth();
+  const { loggedIn, logIn, logOut } = useAuth();
   const navigate = useNavigate();
 
   const channelsList = useSelector(channelsSelectors.selectAll);
@@ -20,15 +20,8 @@ const ChatPage = () => {
     if (userId && userId.token) {
       return { Authorization: `Bearer ${userId.token}` };
     }
-
     return {};
   };
-
-  useEffect(() => {
-    if (!loggedIn) {
-      navigate('/login');
-    }
-  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,12 +32,21 @@ const ChatPage = () => {
         dispatch(addMessages(messages));
         console.log(channelsList);
         console.log(messagesList);
+        logIn();
       } catch (e) {
-        console.log(e);
+        logOut();
       }
     };
     fetchData();
-  });
+  }, []);
+
+  useEffect(() => {
+    if (!loggedIn) {
+      navigate('/login');
+    } else {
+      navigate('/');
+    }
+  }, [loggedIn]);
 
   const renderChannels = () => (
     <ul className="nav flex-column nav-pills nav-fill px-2">
