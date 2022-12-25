@@ -28,7 +28,7 @@ const ChatPage = () => {
     if (!loggedIn) {
       navigate('/login');
     }
-  }, []);
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,8 +69,8 @@ const ChatPage = () => {
           <span className="text-muted">Здесь будет количество сообщений в канале</span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
-          {messagesList.map(() => (
-            <div className="text-break mb-2">
+          {messagesList.map((message) => (
+            <div key={message.id} className="text-break mb-2">
               <b>Имя отправителя</b>
               :
               Текст сообщения
@@ -95,7 +95,7 @@ const ChatPage = () => {
         <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
           <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
             <span>Каналы</span>
-            <button type="button" className="p-0 text-primary btn btn-group-vertical" />
+            <button type="button" aria-label="Add channel" className="p-0 text-primary btn btn-group-vertical" />
           </div>
           {renderChannels()}
         </div>
