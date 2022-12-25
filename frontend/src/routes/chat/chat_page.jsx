@@ -7,7 +7,7 @@ import { addChannels, channelsSelectors } from '../../slices/channels';
 import { addMessages, messagesSelectors } from '../../slices/messages';
 
 const ChatPage = () => {
-  const { loggedIn, logIn, logOut } = useAuth();
+  const { loggedIn, logIn } = useAuth();
   const navigate = useNavigate();
 
   const channelsList = useSelector(channelsSelectors.selectAll);
@@ -33,8 +33,9 @@ const ChatPage = () => {
         console.log(channelsList);
         console.log(messagesList);
         logIn();
+        navigate('/');
       } catch (e) {
-        logOut();
+        console.log(e)
       }
     };
     fetchData();
@@ -43,8 +44,6 @@ const ChatPage = () => {
   useEffect(() => {
     if (!loggedIn) {
       navigate('/login');
-    } else {
-      navigate('/');
     }
   }, [loggedIn]);
 
