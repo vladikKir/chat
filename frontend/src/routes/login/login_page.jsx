@@ -34,9 +34,9 @@ const LoginPage = () => {
     onSubmit: async (values) => {
       try {
         const response = await axios.post('api/v1/login', { username: values.username, password: values.password });
-        const { token } = response.data;
+        const { token, username } = response.data;
         console.log(response);
-        localStorage.setItem('userId', JSON.stringify({ token }));
+        localStorage.setItem('userId', JSON.stringify({ token, username }));
         navigate('/');
       } catch (e) {
         setErrorState(false);

@@ -2,13 +2,17 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
+import { io } from 'socket.io-client';
+import { useDispatch } from 'react-redux';
 import App from './App.jsx';
-import store from './slices/index';
+import { addMessage } from './slices/messages';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const socket = io();
+socket.on('newMessage', (message) => {
+  console.log(message);
+  useDispatch(addMessage(message));
+});
 root.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <App socket={socket} />,
 );
