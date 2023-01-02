@@ -20,7 +20,6 @@
   },
   "homepage": "https://github.com/vladikKir/frontend-project-12#readme",
   "dependencies": {
-    "@hexlet/chat-server": "^1.1.6",
-    "lodash": "^4.17.21"
+    "@hexlet/chat-server": "^1.1.6"
   }
 }
