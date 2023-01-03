@@ -42,12 +42,14 @@ const ChatPage = () => {
       }
     };
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (loggedIn === false) {
       navigate('/login');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedIn]);
 
   const renderChannels = () => (
