@@ -7,12 +7,15 @@ import useAuth from '../../hooks/useAuth';
 import { addChannels, channelsSelectors } from '../../slices/channels';
 import { fetchMessages, messagesSelectors } from '../../slices/messages';
 import SendMessageForm from './send_message_form';
+import getModal from '../../components/modals/modals';
+import { addModal } from '../../slices/modal';
 
 const ChatPage = () => {
   const { loggedIn, logIn } = useAuth();
   const navigate = useNavigate();
   const [channelName, setChannel] = useState('general');
 
+  const modalState = useSelector((state) => state.modal.value);
   const channelsList = useSelector(channelsSelectors.selectAll);
   const messagesList = useSelector(messagesSelectors.selectAll);
   const dispatch = useDispatch();
@@ -56,7 +59,7 @@ const ChatPage = () => {
     <ul className="nav flex-column nav-pills nav-fill px-2">
       {channelsList.map((channel) => {
         const className = classNames('w-100', 'rounded-0', 'text-start', 'btn', { 'btn-secondary': channel.name === channelName });
-
+        console.log(channel);
         return (
           <li key={channel.id} className="nav-item w-100">
             <button type="button" className={className} onClick={() => setChannel(channel.name)}>
@@ -79,7 +82,11 @@ const ChatPage = () => {
               {channelName}
             </b>
           </p>
-          <span className="text-muted">Здесь будет количество сообщений в канале</span>
+          <span className="text-muted">
+            <span>Сообщений: </span>
+            {messagesList
+              .filter((message) => message.channelName === channelName).length}
+          </span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
           {messagesList
@@ -103,11 +110,12 @@ const ChatPage = () => {
         <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
           <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
             <span>Каналы</span>
-            <button type="button" aria-label="Add channel" className="p-0 text-primary btn btn-group-vertical">+</button>
+            <button type="button" aria-label="Add channel" className="p-0 text-primary btn btn-group-vertical" onClick={() => dispatch(addModal('add'))}>+</button>
           </div>
           {renderChannels()}
         </div>
         {renderMessages()}
+        {getModal(modalState)}
       </div>
     </div>
   );
