@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import useAuth from '../../hooks/useAuth';
 import { addChannels, channelsSelectors } from '../../slices/channels';
 import { fetchMessages, messagesSelectors } from '../../slices/messages';
-import SendMessageForm from './send_message_form';
+import SendMessageForm from './SendMessageForm';
 import getModal from '../../components/modals/modals';
 import { addModal } from '../../slices/modal';
 
@@ -59,7 +59,6 @@ const ChatPage = () => {
     <ul className="nav flex-column nav-pills nav-fill px-2">
       {channelsList.map((channel) => {
         const className = classNames('w-100', 'rounded-0', 'text-start', 'btn', { 'btn-secondary': channel.name === channelName });
-        console.log(channel);
         return (
           <li key={channel.id} className="nav-item w-100">
             <button type="button" className={className} onClick={() => setChannel(channel.name)}>

@@ -1,13 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import _ from 'lodash';
 import useSocket from '../../hooks/useSocket';
-import { addMessage } from '../../slices/messages';
 
 const SendMessageForm = ({ loggedIn, channelName }) => {
   const [message, setMessage] = useState('');
-  const { socket } = useSocket();
-  const dispatch = useDispatch();
+  const socket = useSocket();
   const inputEl = useRef(null);
 
   useEffect(() => {
@@ -24,7 +21,6 @@ const SendMessageForm = ({ loggedIn, channelName }) => {
         value: message,
       };
       socket.emit('newMessage', formedMessage);
-      dispatch(addMessage(formedMessage));
       setMessage('');
     }
   };

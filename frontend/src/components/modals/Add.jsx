@@ -7,7 +7,7 @@ import useSocket from '../../hooks/useSocket';
 
 const Add = ({ updateModal }) => {
   const dispatch = useDispatch();
-  const { socket } = useSocket();
+  const socket = useSocket();
 
   const handleSubmit = (body) => {
     socket.emit('newChannel', { name: body });

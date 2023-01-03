@@ -11,12 +11,12 @@ import SocketProvider from './providers/SocketProvider';
 
 const App = ({ socket }) => (
   <AuthProvider>
-    <SocketProvider socket={socket}>
-      <Provider store={store}>
+    <Provider store={store}>
+      <SocketProvider socket={socket}>
         <NavBar />
         <RouterProvider router={router} />
-      </Provider>
-    </SocketProvider>
+      </SocketProvider>
+    </Provider>
   </AuthProvider>
 );
 
