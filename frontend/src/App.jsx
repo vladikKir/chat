@@ -9,7 +9,7 @@ import NavBar from './components/navBar.jsx';
 import AuthProvider from './providers/AuthProvider';
 import SocketProvider from './providers/SocketProvider';
 
-const App = (socket) => (
+const App = ({ socket }) => (
   <AuthProvider>
     <SocketProvider socket={socket}>
       <Provider store={store}>
