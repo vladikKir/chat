@@ -2,9 +2,9 @@ import React, { useRef, useEffect, useState } from 'react';
 import _ from 'lodash';
 import useSocket from '../../hooks/useSocket';
 
-const SendMessageForm = ({ loggedIn, channelName }) => {
+const SendMessageForm = ({ loggedIn, channelId }) => {
   const [message, setMessage] = useState('');
-  const socket = useSocket();
+  const chatApi = useSocket();
   const inputEl = useRef(null);
 
   useEffect(() => {
@@ -15,12 +15,12 @@ const SendMessageForm = ({ loggedIn, channelName }) => {
     e.preventDefault();
     if (message.length !== 0) {
       const formedMessage = {
-        channelName,
+        channelId,
         userId: loggedIn,
         id: _.uniqueId(),
         value: message,
       };
-      socket.emit('newMessage', formedMessage);
+      chatApi.addMessage(formedMessage);
       setMessage('');
     }
   };

@@ -2,21 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import classNames from 'classnames';
 import useAuth from '../../hooks/useAuth';
 import { addChannels, channelsSelectors } from '../../slices/channels';
 import { fetchMessages, messagesSelectors } from '../../slices/messages';
-import SendMessageForm from './SendMessageForm';
 import getModal from '../../components/modals/modals';
 import { addModal } from '../../slices/modal';
+import Channels from './Channels';
+import Messages from './Messages';
 
 const ChatPage = () => {
   const { loggedIn, logIn } = useAuth();
   const navigate = useNavigate();
-  const [channelName, setChannel] = useState('general');
-
   const modalState = useSelector((state) => state.modal.value);
+
   const channelsList = useSelector(channelsSelectors.selectAll);
+  const [curChannel, setChannel] = useState(channelsList.find((channel) => channel.id === 1));
+
   const messagesList = useSelector(messagesSelectors.selectAll);
   const dispatch = useDispatch();
 
@@ -55,54 +56,6 @@ const ChatPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedIn]);
 
-  const renderChannels = () => (
-    <ul className="nav flex-column nav-pills nav-fill px-2">
-      {channelsList.map((channel) => {
-        const className = classNames('w-100', 'rounded-0', 'text-start', 'btn', { 'btn-secondary': channel.name === channelName });
-        return (
-          <li key={channel.id} className="nav-item w-100">
-            <button type="button" className={className} onClick={() => setChannel(channel.name)}>
-              <span className="me-1">#</span>
-              {channel.name}
-            </button>
-          </li>
-        );
-      })}
-    </ul>
-  );
-
-  const renderMessages = () => (
-    <div className="col p-0 h-100">
-      <div className="d-flex flex-column h-100">
-        <div className="bg-light mb-4 p-3 shadow-sm small">
-          <p className="m-0">
-            <b>
-              #
-              {channelName}
-            </b>
-          </p>
-          <span className="text-muted">
-            <span>Сообщений: </span>
-            {messagesList
-              .filter((message) => message.channelName === channelName).length}
-          </span>
-        </div>
-        <div id="messages-box" className="chat-messages overflow-auto px-5 ">
-          {messagesList
-            .filter((message) => message.channelName === channelName)
-            .map((message) => (
-              <div key={message.id} className="text-break mb-2">
-                <b>{message.userId}</b>
-                :
-                {message.value}
-              </div>
-            ))}
-        </div>
-        <SendMessageForm loggedIn={loggedIn} channelName={channelName} />
-      </div>
-    </div>
-  );
-
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
       <div className="row h-100 bg-white flex-md-row">
@@ -111,9 +64,9 @@ const ChatPage = () => {
             <span>Каналы</span>
             <button type="button" aria-label="Add channel" className="p-0 text-primary btn btn-group-vertical" onClick={() => dispatch(addModal('add'))}>+</button>
           </div>
-          {renderChannels()}
+          <Channels curChannel={curChannel} channelsList={channelsList} setChannel={setChannel} />
         </div>
-        {renderMessages()}
+        <Messages curChannel={curChannel} messagesList={messagesList} />
         {getModal(modalState)}
       </div>
     </div>

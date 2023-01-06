@@ -2,22 +2,33 @@ import React from 'react';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { RouterProvider } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import store from './slices/index';
+import { io } from 'socket.io-client';
+import { useDispatch } from 'react-redux';
 import router from './routes/router';
 import NavBar from './components/navBar.jsx';
 import AuthProvider from './providers/AuthProvider';
 import SocketProvider from './providers/SocketProvider';
+import { addMessage } from './slices/messages';
+import { addChannel } from './slices/channels';
 
-const App = ({ socket }) => (
-  <AuthProvider>
-    <Provider store={store}>
+const App = () => {
+  const socket = io();
+  const dispatch = useDispatch();
+
+  socket.on('newMessage', (message) => {
+    dispatch(addMessage(message));
+  });
+  socket.on('newChannel', (channel) => {
+    dispatch(addChannel(channel));
+  });
+
+  return (
+    <AuthProvider>
       <SocketProvider socket={socket}>
         <NavBar />
         <RouterProvider router={router} />
       </SocketProvider>
-    </Provider>
-  </AuthProvider>
-);
-
+    </AuthProvider>
+  );
+};
 export default App;

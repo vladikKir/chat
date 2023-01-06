@@ -2,15 +2,17 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { io } from 'socket.io-client';
-import App from './App.jsx';
+import { Provider } from 'react-redux';
+import store from './slices/index';
+import App from './App';
 
-const init = () => {
+const app = () => {
   const root = ReactDOM.createRoot(document.getElementById('root'));
-  const socket = io();
   root.render(
-    <App socket={socket} />,
+    <Provider store={store}>
+      <App />
+    </Provider>,
   );
 };
 
-init();
+app();
