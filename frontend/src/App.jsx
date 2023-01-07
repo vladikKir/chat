@@ -9,7 +9,7 @@ import NavBar from './components/navBar.jsx';
 import AuthProvider from './providers/AuthProvider';
 import SocketProvider from './providers/SocketProvider';
 import { addMessage } from './slices/messages';
-import { addChannel } from './slices/channels';
+import { addChannel, removeChannel, renameChannel } from './slices/channels';
 
 const App = () => {
   const socket = io();
@@ -20,6 +20,12 @@ const App = () => {
   });
   socket.on('newChannel', (channel) => {
     dispatch(addChannel(channel));
+  });
+  socket.on('removeChannel', ({ id }) => {
+    dispatch(removeChannel(id));
+  });
+  socket.on('renameChannel', ({ id, name }) => {
+    dispatch(renameChannel({ id, changes: { name } }));
   });
 
   return (

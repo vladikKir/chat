@@ -62,7 +62,7 @@ const ChatPage = () => {
         <div className="col-4 col-md-2 border-end pt-5 px-0 bg-light">
           <div className="d-flex justify-content-between mb-2 ps-4 pe-2">
             <span>Каналы</span>
-            <button type="button" aria-label="Add channel" className="p-0 text-primary btn btn-group-vertical" onClick={() => dispatch(addModal('add'))}>+</button>
+            <button type="button" aria-label="Add channel" className="p-0 text-primary btn btn-group-vertical" onClick={() => dispatch(addModal({ type: 'add' }))}>+</button>
           </div>
           <Channels curChannel={curChannel} channelsList={channelsList} setChannel={setChannel} />
         </div>
