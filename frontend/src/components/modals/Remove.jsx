@@ -24,7 +24,7 @@ const Remove = ({ channelId }) => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={() => dispatch(addModal({ type: 'unactive' }))}>Отмена</Button>
-        <Button variant="danger" onClick={() => handleRemove(channelId)}>Удалить</Button>
+        <Button variant="danger" type="submit" onClick={() => handleRemove(channelId)}>Удалить</Button>
       </Modal.Footer>
     </Modal>
   );

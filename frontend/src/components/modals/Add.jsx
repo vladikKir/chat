@@ -41,10 +41,8 @@ const Add = () => {
       </Modal.Header>
       <form onSubmit={formik.handleSubmit}>
         <Modal.Body>
-
           <FormGroup>
             <FormControl ref={inputEl} id="body" onChange={formik.handleChange} value={formik.values.body} />
-
           </FormGroup>
         </Modal.Body>
         <Modal.Footer>

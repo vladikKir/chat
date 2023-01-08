@@ -5,7 +5,7 @@ import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
 import { addChannels, channelsSelectors } from '../../slices/channels';
 import { fetchMessages, messagesSelectors } from '../../slices/messages';
-import getModal from '../../components/modals/modals';
+import getModal from '../modals/modals';
 import { addModal } from '../../slices/modal';
 import Channels from './Channels';
 import Messages from './Messages';
