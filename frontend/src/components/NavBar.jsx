@@ -1,15 +1,17 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks/useAuth';
 
 const ExitButton = () => {
   const { loggedIn, logOut } = useAuth();
+  const { t } = useTranslation('translation', { keyPrefix: 'navBar' });
 
   if (!loggedIn) {
     return '';
   }
 
   return (
-    <button type="button" className="btn btn-primary" onClick={logOut}>Выйти</button>
+    <button type="button" className="btn btn-primary" onClick={logOut}>{t('logOut')}</button>
   );
 };
 
@@ -19,7 +21,7 @@ const NavBar = () => (
       <a className="navbar-brand" href="/" style={{ display: 'inline-block' }}>
         <img src="/pictures/chat_nav.svg" alt="chat-logo" style={{ width: '30px', height: '30px' }} />
         {' '}
-        Chat
+        Hexlet Chat
       </a>
       <ExitButton />
     </div>

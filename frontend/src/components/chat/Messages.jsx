@@ -1,9 +1,11 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import SendMessageForm from './SendMessageForm';
 import useAuth from '../../hooks/useAuth';
 
 const Messages = ({ curChannel, messagesList }) => {
   const { loggedIn } = useAuth();
+  const { t } = useTranslation('translation', { keyPrefix: 'chatPage.messages' });
 
   return (
     <div className="col p-0 h-100">
@@ -16,7 +18,7 @@ const Messages = ({ curChannel, messagesList }) => {
             </b>
           </p>
           <span className="text-muted">
-            <span>Сообщений: </span>
+            <span>{t('messagesCount')}</span>
             {messagesList
               .filter((message) => message.channelId === curChannel.id).length}
           </span>

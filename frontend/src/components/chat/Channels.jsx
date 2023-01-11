@@ -2,10 +2,12 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Dropdown } from 'react-bootstrap';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { addModal } from '../../slices/modal';
 
 const Channels = ({ curChannel, channelsList, setChannel }) => {
   const dispatch = useDispatch();
+  const { t } = useTranslation('translation', { keyPrefix: 'chatPage.channels' });
 
   const chooseChannel = (id) => {
     const newChannel = channelsList.find((channel) => channel.id === id);
@@ -28,8 +30,8 @@ const Channels = ({ curChannel, channelsList, setChannel }) => {
                 <Dropdown.Toggle variant={channel.id === curChannel.id ? 'btn-secondary' : ''} />
 
                 <Dropdown.Menu>
-                  <Dropdown.Item href="#/action-1" onClick={() => dispatch(addModal({ type: 'remove', channel }))}>Удалить</Dropdown.Item>
-                  <Dropdown.Item href="#/action-2" onClick={() => dispatch(addModal({ type: 'rename', channel }))}>Переименовать</Dropdown.Item>
+                  <Dropdown.Item href="#/action-1" onClick={() => dispatch(addModal({ type: 'remove', channel }))}>{t('dropdown.delete')}</Dropdown.Item>
+                  <Dropdown.Item href="#/action-2" onClick={() => dispatch(addModal({ type: 'rename', channel }))}>{t('dropdown.rename')}</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </li>
