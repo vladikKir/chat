@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { object, string } from 'yup';
 import { useFormik } from 'formik';
 import axios from 'axios';
@@ -11,8 +11,13 @@ import 'react-toastify/dist/ReactToastify.css';
 const SignupPage = () => {
   const [errorState, setErrorState] = useState(false);
   const navigate = useNavigate();
+  const inputEl = useRef(null);
 
   const { t } = useTranslation('translation', { keyPrefix: 'signupPage' });
+
+  useEffect(() => {
+    inputEl.current.focus();
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -59,7 +64,7 @@ const SignupPage = () => {
               <form className="w-50" onSubmit={formik.handleSubmit}>
                 <h1>{t('registration')}</h1>
                 <div className="form-floating mb-3">
-                  <input placeholder="От 3 до 20 символов" name="username" autoComplete="username" required="" id="username" className={classNames('form-control', { 'is-invalid': (formik.touched.username && formik.errors.username) || errorState })} onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.username} />
+                  <input ref={inputEl} placeholder="От 3 до 20 символов" name="username" autoComplete="username" required="" id="username" className={classNames('form-control', { 'is-invalid': (formik.touched.username && formik.errors.username) || errorState })} onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.username} />
                   <label className="form-label" htmlFor="username">{t('username')}</label>
                   {formik.touched.username && formik.errors.username && <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.username}</div>}
                 </div>

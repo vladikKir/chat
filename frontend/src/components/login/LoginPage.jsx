@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { object, string } from 'yup';
 import { useFormik } from 'formik';
@@ -11,8 +11,13 @@ import 'react-toastify/dist/ReactToastify.css';
 const LoginPage = () => {
   const [errorState, setErrorState] = useState(false);
   const navigate = useNavigate();
+  const inputEl = useRef(null);
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    inputEl.current.focus();
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -54,7 +59,7 @@ const LoginPage = () => {
                   <form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
                     <h1 className="text-center mb-4">{t('loginPage.enter')}</h1>
                     <div className="form-floating mb-3">
-                      <input name="username" autoComplete="username" required placeholder="Ваш ник" id="username" className={classNames('form-control', { 'is-invalid': errorState })} onChange={formik.handleChange} value={formik.values.username} />
+                      <input ref={inputEl} name="username" autoComplete="username" required placeholder="Ваш ник" id="username" className={classNames('form-control', { 'is-invalid': errorState })} onChange={formik.handleChange} value={formik.values.username} />
                       <label htmlFor="username">{t('loginPage.username')}</label>
                     </div>
                     <div className="form-floating mb-4">

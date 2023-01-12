@@ -3,7 +3,7 @@ export default {
     loginPage: {
       enter: 'Войти',
       username: 'Ваш ник',
-      password: 'Ваш пароль',
+      password: 'Пароль',
       noAcc: 'Нет аккаунта? ',
       registration: 'Регистрация',
       errors: {
