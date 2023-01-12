@@ -22,8 +22,8 @@ const SignupPage = () => {
     },
     validationSchema: object({
       username: string()
-        .min(3, t('errors.min3'))
-        .max(20, t('errors.max20'))
+        .min(3, t('errors.min3max20'))
+        .max(20, t('errors.min3max20'))
         .required(t('errors.required')),
       password: string()
         .min(6, t('errors.min6'))
@@ -53,7 +53,9 @@ const SignupPage = () => {
         <div className="col-12 col-md-8 col-xxl-6">
           <div className="card shadow-sm">
             <div className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
-              <div><img src="" alt="" /></div>
+              <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
+                <img src="/pictures/chat_form.svg" className="rounded-circle" alt="Войти" />
+              </div>
               <form className="w-50" onSubmit={formik.handleSubmit}>
                 <h1>{t('registration')}</h1>
                 <div className="form-floating mb-3">
@@ -72,7 +74,7 @@ const SignupPage = () => {
                   {formik.touched.confirmPassword && formik.errors.confirmPassword && <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.confirmPassword}</div>}
                   {errorState && <div className="invalid-tooltip" style={{ display: 'block' }}>{t('errors.alreadyExist')}</div>}
                 </div>
-                <button type="submit" className="w-100 btn btn-outline-primary">{t('signup')}</button>
+                <button type="submit" value="disable" className="w-100 btn btn-outline-primary">{t('signup')}</button>
               </form>
             </div>
           </div>
