@@ -5,6 +5,7 @@ import { FormControl, Modal, Button } from 'react-bootstrap';
 import { object, string } from 'yup';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { addModal } from '../../slices/modal';
 import useSocket from '../../hooks/useSocket';
 
@@ -13,10 +14,11 @@ const Rename = ({ channel }) => {
   const chatApi = useSocket();
   const inputEl = useRef(null);
 
-  const { t } = useTranslation('translation', { keyPrefix: 'modal.rename' });
+  const { t } = useTranslation();
 
   const handleSubmit = (body) => {
     chatApi.renameChannel({ id: channel.id, name: body });
+    setTimeout(() => toast.success(t('notifies.channelRename')));
     dispatch(addModal({ type: 'unactive' }));
   };
 
@@ -26,9 +28,9 @@ const Rename = ({ channel }) => {
     },
     validationSchema: object({
       body: string()
-        .min(1, t('errors.min1'))
-        .max(15, t('errors.max15'))
-        .required(t('errors.required')),
+        .min(1, t('modal.rename.errors.min1'))
+        .max(15, t('modal.rename.errors.max15'))
+        .required(t('modal.rename.errors.required')),
     }),
     onSubmit: ({ body }) => handleSubmit(body),
   });
@@ -40,7 +42,7 @@ const Rename = ({ channel }) => {
   return (
     <Modal show onHide={() => dispatch(addModal({ type: 'unactive' }))}>
       <Modal.Header>
-        <Modal.Title>{t('renameChannel')}</Modal.Title>
+        <Modal.Title>{t('modal.rename.renameChannel')}</Modal.Title>
         <button type="button" className="btn-close" aria-label="Close" onClick={() => dispatch(addModal({ type: 'unactive' }))} />
       </Modal.Header>
       <Modal.Body>
@@ -50,8 +52,8 @@ const Rename = ({ channel }) => {
         </form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => dispatch(addModal({ type: 'unactive' }))}>{t('cancel')}</Button>
-        <Button variant="primary" type="submit" onClick={() => handleSubmit(channel.id)}>{t('save')}</Button>
+        <Button variant="secondary" onClick={() => dispatch(addModal({ type: 'unactive' }))}>{t('modal.rename.cancel')}</Button>
+        <Button variant="primary" type="submit" onClick={() => handleSubmit(channel.id)}>{t('modal.rename.save')}</Button>
       </Modal.Footer>
     </Modal>
   );

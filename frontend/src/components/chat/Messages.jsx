@@ -1,11 +1,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 import SendMessageForm from './SendMessageForm';
 import useAuth from '../../hooks/useAuth';
 
 const Messages = ({ curChannel, messagesList }) => {
   const { loggedIn } = useAuth();
   const { t } = useTranslation('translation', { keyPrefix: 'chatPage.messages' });
+
+  filter.loadDictionary('ru');
 
   return (
     <div className="col p-0 h-100">
@@ -30,7 +33,7 @@ const Messages = ({ curChannel, messagesList }) => {
               <div key={message.id} className="text-break mb-2">
                 <b>{message.userId}</b>
                 :
-                {message.value}
+                {filter.clean(message.value)}
               </div>
             ))}
         </div>

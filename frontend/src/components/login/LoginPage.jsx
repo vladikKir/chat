@@ -5,12 +5,14 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginPage = () => {
   const [errorState, setErrorState] = useState(false);
   const navigate = useNavigate();
 
-  const { t } = useTranslation('translation', { keyPrefix: 'loginPage' });
+  const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: {
@@ -30,6 +32,9 @@ const LoginPage = () => {
         localStorage.setItem('userId', JSON.stringify({ token, username }));
         navigate('/');
       } catch (e) {
+        if (e.code === 'ERR_NETWORK') {
+          toast.error(t('notifies.networkError'));
+        }
         setErrorState(true);
       }
     },
@@ -47,23 +52,23 @@ const LoginPage = () => {
                     <img src="/pictures/chat_form.svg" className="rounded-circle" alt="Войти" />
                   </div>
                   <form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
-                    <h1 className="text-center mb-4">{t('enter')}</h1>
+                    <h1 className="text-center mb-4">{t('loginPage.enter')}</h1>
                     <div className="form-floating mb-3">
                       <input name="username" autoComplete="username" required placeholder="Ваш ник" id="username" className={classNames('form-control', { 'is-invalid': errorState })} onChange={formik.handleChange} value={formik.values.username} />
-                      <label htmlFor="username">{t('username')}</label>
+                      <label htmlFor="username">{t('loginPage.username')}</label>
                     </div>
                     <div className="form-floating mb-4">
                       <input name="password" autoComplete="current-password" required placeholder="Пароль" type="password" id="password" className={classNames('form-control', { 'is-invalid': errorState })} onChange={formik.handleChange} value={formik.values.password} />
-                      <label className="form-label" htmlFor="password">{t('password')}</label>
-                      {errorState && <div className="invalid-tooltip" style={{ display: 'block' }}>{t('errors.wrongLoginOrPass')}</div>}
+                      <label className="form-label" htmlFor="password">{t('loginPage.password')}</label>
+                      {errorState && <div className="invalid-tooltip" style={{ display: 'block' }}>{t('loginPage.errors.wrongLoginOrPass')}</div>}
                     </div>
-                    <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('enter')}</button>
+                    <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('loginPage.enter')}</button>
                   </form>
                 </div>
                 <div className="card-footer p-4">
                   <div className="text-center">
-                    <span>{t('noAcc')}</span>
-                    <a href="/signup">{t('registration')}</a>
+                    <span>{t('loginPage.noAcc')}</span>
+                    <a href="/signup">{t('loginPage.registration')}</a>
                   </div>
                 </div>
               </div>
@@ -71,7 +76,7 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
-      <div className="Toastify" />
+      <ToastContainer />
     </div>
   );
 };

@@ -75,5 +75,11 @@ export default {
     errorPage: {
       header: 'Тут ничего :(',
     },
+    notifies: {
+      networkError: 'Ошибка сети',
+      channelAdd: 'Канал добавлен',
+      channelRemove: 'Канал удален',
+      channelRename: 'Канал переименован',
+    },
   },
 };

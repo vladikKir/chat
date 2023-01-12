@@ -5,18 +5,21 @@ import { Modal, FormGroup, FormControl } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { object, string } from 'yup';
 import classNames from 'classnames';
+import { toast, ToastContainer } from 'react-toastify';
 import { addModal } from '../../slices/modal';
 import useSocket from '../../hooks/useSocket';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Add = () => {
   const dispatch = useDispatch();
   const chatApi = useSocket();
   const inputEl = useRef(null);
 
-  const { t } = useTranslation('translation', { keyPrefix: 'modal.add' });
+  const { t } = useTranslation();
 
   const handleSubmit = (body) => {
     chatApi.addChannel({ name: body });
+    setTimeout(() => toast.success(t('notifies.channelAdd')));
     dispatch(addModal({ type: 'unactive' }));
   };
 
@@ -26,9 +29,9 @@ const Add = () => {
     },
     validationSchema: object({
       body: string()
-        .min(1, t('errors.min1'))
-        .max(15, t('errors.max15'))
-        .required(t('errors.required')),
+        .min(1, t('modal.add.errors.min1'))
+        .max(15, t('modal.add.errors.max15'))
+        .required(t('modal.add.errors.required')),
     }),
     onSubmit: ({ body }) => handleSubmit(body),
   });
@@ -38,23 +41,26 @@ const Add = () => {
   });
 
   return (
-    <Modal show onHide={() => dispatch(addModal({ type: 'unactive' }))}>
-      <Modal.Header>
-        <Modal.Title>{t('addChannel')}</Modal.Title>
-        <button type="button" className="btn-close" aria-label="Close" onClick={() => dispatch(addModal({ type: 'unactive' }))} />
-      </Modal.Header>
-      <form onSubmit={formik.handleSubmit}>
-        <Modal.Body>
-          <FormGroup>
-            <FormControl className={classNames({ 'is-invalid': formik.touched.body && formik.errors.body })} ref={inputEl} id="body" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.body} />
-            {formik.touched.body && formik.errors.body && <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.body}</div>}
-          </FormGroup>
-        </Modal.Body>
-        <Modal.Footer>
-          <button className="btn btn-primary" type="submit">{t('send')}</button>
-        </Modal.Footer>
-      </form>
-    </Modal>
+    <>
+      <Modal show onHide={() => dispatch(addModal({ type: 'unactive' }))}>
+        <Modal.Header>
+          <Modal.Title>{t('modal.add.addChannel')}</Modal.Title>
+          <button type="button" className="btn-close" aria-label="Close" onClick={() => dispatch(addModal({ type: 'unactive' }))} />
+        </Modal.Header>
+        <form onSubmit={formik.handleSubmit}>
+          <Modal.Body>
+            <FormGroup>
+              <FormControl className={classNames({ 'is-invalid': formik.touched.body && formik.errors.body })} ref={inputEl} id="body" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.body} />
+              {formik.touched.body && formik.errors.body && <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.body}</div>}
+            </FormGroup>
+          </Modal.Body>
+          <Modal.Footer>
+            <button className="btn btn-primary" type="submit">{t('modal.add.send')}</button>
+          </Modal.Footer>
+        </form>
+      </Modal>
+      <ToastContainer />
+    </>
   );
 };
 
