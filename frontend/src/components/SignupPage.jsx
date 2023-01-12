@@ -57,20 +57,20 @@ const SignupPage = () => {
               <form className="w-50" onSubmit={formik.handleSubmit}>
                 <h1>{t('registration')}</h1>
                 <div className="form-floating mb-3">
-                  <input placeholder="От 3 до 20 символов" name="username" autoComplete="username" required="" id="username" className={classNames('form-control', { 'is-invalid': formik.touched.username && formik.errors.username })} onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.username} />
+                  <input placeholder="От 3 до 20 символов" name="username" autoComplete="username" required="" id="username" className={classNames('form-control', { 'is-invalid': (formik.touched.username && formik.errors.username) || errorState })} onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.username} />
                   <label className="form-label" htmlFor="username">{t('username')}</label>
                   {formik.touched.username && formik.errors.username && <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.username}</div>}
                 </div>
                 <div className="form-floating mb-3">
-                  <input placeholder="Не менее 6 символов" name="password" aria-describedby="passwordHelpBlock" required="" autoComplete="new-password" type="password" id="password" className={classNames('form-control', { 'is-invalid': formik.touched.password && formik.errors.password })} aria-autocomplete="list" onChange={formik.handleChange} value={formik.values.password} onBlur={formik.handleBlur} />
+                  <input placeholder="Не менее 6 символов" name="password" aria-describedby="passwordHelpBlock" required="" autoComplete="new-password" type="password" id="password" className={classNames('form-control', { 'is-invalid': (formik.touched.password && formik.errors.password) || errorState })} aria-autocomplete="list" onChange={formik.handleChange} value={formik.values.password} onBlur={formik.handleBlur} />
                   <label className="form-label" htmlFor="password">{t('password')}</label>
                   {formik.touched.password && formik.errors.password && <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.password}</div>}
                 </div>
                 <div className="form-floating mb-4">
-                  <input placeholder="Пароли должны совпадать" name="confirmPassword" required="" autoComplete="new-password" type="password" id="confirmPassword" className={classNames('form-control', { 'is-invalid': formik.touched.confirmPassword && formik.errors.confirmPassword })} onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.confirmPassword} />
+                  <input placeholder="Пароли должны совпадать" name="confirmPassword" required="" autoComplete="new-password" type="password" id="confirmPassword" className={classNames('form-control', { 'is-invalid': (formik.touched.confirmPassword && formik.errors.confirmPassword) || errorState })} onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.confirmPassword} />
                   <label className="form-label" htmlFor="confirmPassword">{t('confirmPassword')}</label>
                   {formik.touched.confirmPassword && formik.errors.confirmPassword && <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.confirmPassword}</div>}
-                  {errorState && <div className="invalid-tooltip" style={{ display: 'block' }}>Пользователь уже существует</div>}
+                  {errorState && <div className="invalid-tooltip" style={{ display: 'block' }}>{t('errors.alreadyExist')}</div>}
                 </div>
                 <button type="submit" className="w-100 btn btn-outline-primary">{t('signup')}</button>
               </form>

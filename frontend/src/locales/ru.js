@@ -22,6 +22,7 @@ export default {
         max20: 'Не более 20 символов',
         required: 'Обязательное поле',
         mustMatch: 'Пароли должны совпадать',
+        alreadyExist: 'Пользователь уже существует',
       },
     },
     chatPage: {
