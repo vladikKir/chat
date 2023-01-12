@@ -76,9 +76,9 @@ export default {
       header: 'Тут ничего :(',
     },
     notifies: {
-      networkError: 'Ошибка сети',
+      networkError: 'Ошибка соединения',
       channelAdd: 'Канал добавлен',
-      channelRemove: 'Канал удален',
+      channelRemove: 'Канал удалён',
       channelRename: 'Канал переименован',
     },
   },

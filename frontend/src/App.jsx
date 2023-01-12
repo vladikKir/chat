@@ -6,6 +6,7 @@ import { io } from 'socket.io-client';
 import { useDispatch } from 'react-redux';
 import i18n from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
+import { Provider, ErrorBoundary } from '@rollbar/react';
 import resources from './locales/index';
 import router from './components/router';
 import NavBar from './components/NavBar';
@@ -38,15 +39,24 @@ const App = () => {
       fallbackLng: 'ru',
     });
 
+  const rollbarConfig = {
+    accessToken: 'POST_CLIENT_ITEM_ACCESS_TOKEN',
+    environment: 'production',
+  };
+
   return (
-    <AuthProvider>
-      <I18nextProvider i18n={i18n}>
-        <SocketProvider socket={socket}>
-          <NavBar />
-          <RouterProvider router={router} />
-        </SocketProvider>
-      </I18nextProvider>
-    </AuthProvider>
+    <Provider config={rollbarConfig}>
+      <ErrorBoundary>
+        <AuthProvider>
+          <I18nextProvider i18n={i18n}>
+            <SocketProvider socket={socket}>
+              <NavBar />
+              <RouterProvider router={router} />
+            </SocketProvider>
+          </I18nextProvider>
+        </AuthProvider>
+      </ErrorBoundary>
+    </Provider>
   );
 };
 export default App;

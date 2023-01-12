@@ -32,7 +32,7 @@ const Messages = ({ curChannel, messagesList }) => {
             .map((message) => (
               <div key={message.id} className="text-break mb-2">
                 <b>{message.userId}</b>
-                :
+                <span>: </span>
                 {filter.clean(message.value)}
               </div>
             ))}
