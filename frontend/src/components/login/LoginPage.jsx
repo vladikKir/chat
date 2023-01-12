@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const LoginPage = () => {
   const [errorState, setErrorState] = useState(false);
+  const [buttonState, setButtonState] = useState(false);
   const navigate = useNavigate();
   const inputEl = useRef(null);
 
@@ -32,11 +33,13 @@ const LoginPage = () => {
     }),
     onSubmit: async (values) => {
       try {
+        setButtonState(true);
         const response = await axios.post('api/v1/login', { username: values.username, password: values.password });
         const { token, username } = response.data;
         localStorage.setItem('userId', JSON.stringify({ token, username }));
         navigate('/');
       } catch (e) {
+        setButtonState(false);
         if (e.code === 'ERR_NETWORK') {
           toast.error(t('notifies.networkError'));
         }
@@ -67,7 +70,7 @@ const LoginPage = () => {
                       <label className="form-label" htmlFor="password">{t('loginPage.password')}</label>
                       {errorState && <div className="invalid-tooltip" style={{ display: 'block' }}>{t('loginPage.errors.wrongLoginOrPass')}</div>}
                     </div>
-                    <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('loginPage.enter')}</button>
+                    <button disabled={buttonState} type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('loginPage.enter')}</button>
                   </form>
                 </div>
                 <div className="card-footer p-4">

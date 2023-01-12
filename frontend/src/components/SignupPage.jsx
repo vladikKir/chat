@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const SignupPage = () => {
   const [errorState, setErrorState] = useState(false);
+  const [buttonState, setButtonState] = useState(false);
   const navigate = useNavigate();
   const inputEl = useRef(null);
 
@@ -39,11 +40,13 @@ const SignupPage = () => {
     }),
     onSubmit: async (values) => {
       try {
+        setButtonState(true);
         const response = await axios.post('/api/v1/signup', { username: values.username, password: values.password });
         const { token, username } = response.data;
         localStorage.setItem('userId', JSON.stringify({ token, username }));
         navigate('/');
       } catch (e) {
+        setButtonState(false);
         if (e.code === 'ERR_NETWORK') {
           toast.error(t('notifies.networkError'));
         }
@@ -79,7 +82,7 @@ const SignupPage = () => {
                   {formik.touched.confirmPassword && formik.errors.confirmPassword && <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.confirmPassword}</div>}
                   {errorState && <div className="invalid-tooltip" style={{ display: 'block' }}>{t('errors.alreadyExist')}</div>}
                 </div>
-                <button type="submit" value="disable" className="w-100 btn btn-outline-primary">{t('signup')}</button>
+                <button disabled={buttonState} type="submit" value="disable" className="w-100 btn btn-outline-primary">{t('signup')}</button>
               </form>
             </div>
           </div>
