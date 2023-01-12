@@ -17,7 +17,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     inputEl.current.focus();
-  });
+  }, []);
 
   const formik = useFormik({
     initialValues: {

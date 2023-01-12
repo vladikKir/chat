@@ -16,9 +16,15 @@ const Rename = ({ channel }) => {
 
   const { t } = useTranslation();
 
+  useEffect(() => {
+    inputEl.current.focus();
+  }, []);
+
   const handleSubmit = (body) => {
-    chatApi.renameChannel({ id: channel.id, name: body });
-    setTimeout(() => toast.success(t('notifies.channelRename')));
+    if (body !== channel.name) {
+      chatApi.renameChannel({ id: channel.id, name: body });
+      setTimeout(() => toast.success(t('notifies.channelRename')), 100);
+    }
     dispatch(addModal({ type: 'unactive' }));
   };
 
@@ -28,15 +34,11 @@ const Rename = ({ channel }) => {
     },
     validationSchema: object({
       body: string()
-        .min(1, t('modal.rename.errors.min1'))
-        .max(15, t('modal.rename.errors.max15'))
+        .min(3, t('modal.add.errors.min3max20'))
+        .max(20, t('modal.add.errors.min3max20'))
         .required(t('modal.rename.errors.required')),
     }),
     onSubmit: ({ body }) => handleSubmit(body),
-  });
-
-  useEffect(() => {
-    inputEl.current.focus();
   });
 
   return (
@@ -53,7 +55,7 @@ const Rename = ({ channel }) => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={() => dispatch(addModal({ type: 'unactive' }))}>{t('modal.rename.cancel')}</Button>
-        <Button variant="primary" type="submit" onClick={() => handleSubmit(channel.id)}>{t('modal.rename.save')}</Button>
+        <Button variant="primary" type="submit" onClick={() => handleSubmit(channel.name)}>{t('modal.rename.save')}</Button>
       </Modal.Footer>
     </Modal>
   );

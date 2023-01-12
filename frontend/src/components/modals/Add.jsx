@@ -19,7 +19,7 @@ const Add = () => {
 
   const handleSubmit = (body) => {
     chatApi.addChannel({ name: body });
-    setTimeout(() => toast.success(t('notifies.channelAdd')));
+    setTimeout(() => toast.success(t('notifies.channelAdd')), 100);
     dispatch(addModal({ type: 'unactive' }));
   };
 
@@ -29,8 +29,8 @@ const Add = () => {
     },
     validationSchema: object({
       body: string()
-        .min(1, t('modal.add.errors.min1'))
-        .max(15, t('modal.add.errors.max15'))
+        .min(3, t('modal.add.errors.min3max20'))
+        .max(20, t('modal.add.errors.min3max20'))
         .required(t('modal.add.errors.required')),
     }),
     onSubmit: ({ body }) => handleSubmit(body),
@@ -38,7 +38,7 @@ const Add = () => {
 
   useEffect(() => {
     inputEl.current.focus();
-  });
+  }, []);
 
   return (
     <>

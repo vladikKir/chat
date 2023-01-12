@@ -14,7 +14,7 @@ const Remove = ({ channelId }) => {
 
   const handleRemove = (id) => {
     chatApi.removeChannel(id);
-    setTimeout(() => toast.success(t('notifies.channelRemove')));
+    setTimeout(() => toast.success(t('notifies.channelRemove')), 100);
     dispatch(addModal({ type: 'unactive' }));
   };
 
