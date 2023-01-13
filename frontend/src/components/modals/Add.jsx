@@ -51,6 +51,7 @@ const Add = () => {
           <Modal.Body>
             <FormGroup>
               <FormControl className={classNames({ 'is-invalid': formik.touched.body && formik.errors.body })} ref={inputEl} id="body" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.body} />
+              <label className="visually-hidden" htmlFor="name">{t('modal.add.channelName')}</label>
               {formik.touched.body && formik.errors.body && <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.body}</div>}
             </FormGroup>
           </Modal.Body>

@@ -50,6 +50,7 @@ const Rename = ({ channel }) => {
       <Modal.Body>
         <form onSubmit={formik.handleSubmit}>
           <FormControl className={classNames({ 'is-invalid': formik.touched.body && formik.errors.body })} ref={inputEl} id="body" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.body} />
+          <label className="visually-hidden" htmlFor="name">{t('modal.add.channelName')}</label>
           {formik.touched.body && formik.errors.body && <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.body}</div>}
         </form>
       </Modal.Body>

@@ -26,6 +26,7 @@ const Remove = ({ channelId }) => {
       </Modal.Header>
       <Modal.Body>
         {t('modal.remove.sure')}
+        <label className="visually-hidden" htmlFor="name">{t('modal.add.channelName')}</label>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={() => dispatch(addModal({ type: 'unactive' }))}>{t('modal.remove.cancel')}</Button>

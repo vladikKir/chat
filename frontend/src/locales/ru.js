@@ -46,6 +46,7 @@ export default {
       add: {
         addChannel: 'Добавить канал',
         send: 'Отправить',
+        channelName: 'Имя канала',
         errors: {
           min3max20: 'От 3 до 20 символов',
           required: 'Обязательное поле',
