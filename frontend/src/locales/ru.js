@@ -30,6 +30,7 @@ export default {
       },
       channels: {
         dropdown: {
+          channelControl: 'Управление каналов',
           delete: 'Удалить',
           rename: 'Переименовать',
         },

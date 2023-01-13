@@ -27,8 +27,9 @@ const Channels = ({ curChannel, channelsList, setChannel }) => {
                   <span className="me-1">#</span>
                   {channel.name}
                 </Button>
-                <Dropdown.Toggle variant={channel.id === curChannel.id ? 'btn-secondary' : ''} />
-
+                <Dropdown.Toggle variant={channel.id === curChannel.id ? 'btn-secondary' : ''}>
+                  <span className="visually-hidden">{t('dropdown.channelControl')}</span>
+                </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item href="#/action-1" onClick={() => dispatch(addModal({ type: 'remove', channel }))}>{t('dropdown.delete')}</Dropdown.Item>
                   <Dropdown.Item href="#/action-2" onClick={() => dispatch(addModal({ type: 'rename', channel }))}>{t('dropdown.rename')}</Dropdown.Item>
