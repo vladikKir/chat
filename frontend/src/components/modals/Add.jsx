@@ -17,23 +17,23 @@ const Add = () => {
 
   const { t } = useTranslation();
 
-  const handleSubmit = (body) => {
-    chatApi.addChannel({ name: body });
+  const handleSubmit = (name) => {
+    chatApi.addChannel({ name });
     setTimeout(() => toast.success(t('notifies.channelAdd')), 100);
     dispatch(addModal({ type: 'unactive' }));
   };
 
   const formik = useFormik({
     initialValues: {
-      body: '',
+      name: '',
     },
     validationSchema: object({
-      body: string()
+      name: string()
         .min(3, t('modal.add.errors.min3max20'))
         .max(20, t('modal.add.errors.min3max20'))
         .required(t('modal.add.errors.required')),
     }),
-    onSubmit: ({ body }) => handleSubmit(body),
+    onSubmit: ({ name }) => handleSubmit(name),
   });
 
   useEffect(() => {
@@ -50,9 +50,9 @@ const Add = () => {
         <form onSubmit={formik.handleSubmit}>
           <Modal.Body>
             <FormGroup>
-              <FormControl className={classNames({ 'is-invalid': formik.touched.body && formik.errors.body })} ref={inputEl} id="body" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.body} />
+              <FormControl className={classNames({ 'is-invalid': formik.touched.name && formik.errors.name })} ref={inputEl} name="name" id="name" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.name} />
               <label className="visually-hidden" htmlFor="name">{t('modal.add.channelName')}</label>
-              {formik.touched.body && formik.errors.body && <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.body}</div>}
+              {formik.touched.name && formik.errors.name && <div className="invalid-tooltip" style={{ display: 'block' }}>{formik.errors.name}</div>}
             </FormGroup>
           </Modal.Body>
           <Modal.Footer>
