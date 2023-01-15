@@ -15,7 +15,7 @@ const Channels = ({ curChannel, channelsList, setChannel }) => {
   };
 
   return (
-    <ul className="nav flex-column nav-pills nav-fill px-2">
+    <ul className="nav flex-column nav-pills nav-fill px-2" style={{ overflow: 'auto' }}>
       {channelsList.map((channel) => {
         const btnClasses = classNames('w-100', 'rounded-0', 'text-start', 'btn', { 'btn-secondary': channel.id === curChannel.id });
         const dropdownBtnClasses = classNames('d-flex', 'btn-group', { 'btn-secondary': channel.id === curChannel.id });

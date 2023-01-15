@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 import SendMessageForm from './SendMessageForm';
@@ -9,6 +9,15 @@ const Messages = ({ curChannel, messagesList }) => {
   const { t } = useTranslation('translation', { keyPrefix: 'chatPage.messages' });
 
   filter.loadDictionary('ru');
+
+  const scrollToBottom = () => {
+    const messagesBox = document.getElementById('messages-box');
+    messagesBox.scrollTop += messagesBox.scrollHeight;
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  });
 
   return (
     <div className="col p-0 h-100">
@@ -26,7 +35,7 @@ const Messages = ({ curChannel, messagesList }) => {
               .filter((message) => message.channelId === curChannel.id).length}
           </span>
         </div>
-        <div id="messages-box" className="chat-messages overflow-auto px-5 ">
+        <div id="messages-box" className="chat-messages overflow-auto px-5 " style={{ overflow: 'auto' }}>
           {messagesList
             .filter((message) => message.channelId === curChannel.id)
             .map((message) => (

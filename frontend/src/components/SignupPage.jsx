@@ -7,12 +7,15 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import routes from '../routes';
+import useAuth from '../hooks/useAuth';
 
 const SignupPage = () => {
   const [errorState, setErrorState] = useState(false);
   const [buttonState, setButtonState] = useState(false);
   const navigate = useNavigate();
   const inputEl = useRef(null);
+  const { logIn } = useAuth();
 
   const { t } = useTranslation('translation', { keyPrefix: 'signupPage' });
 
@@ -41,11 +44,14 @@ const SignupPage = () => {
     onSubmit: async (values) => {
       try {
         setButtonState(true);
-        const response = await axios.post('/api/v1/signup', { username: values.username, password: values.password });
+        const data = { username: values.username, password: values.password };
+        const response = await axios.post(routes.signup, data);
         const { token, username } = response.data;
-        localStorage.setItem('userId', JSON.stringify({ token, username }));
+        const userId = localStorage.setItem('userId', JSON.stringify({ token, username }));
+        logIn(userId.username);
         navigate('/');
       } catch (e) {
+        logIn(false);
         setButtonState(false);
         if (e.code === 'ERR_NETWORK') {
           toast.error(t('notifies.networkError'));

@@ -7,12 +7,15 @@ import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import routes from '../../routes';
+import useAuth from '../../hooks/useAuth';
 
 const LoginPage = () => {
   const [errorState, setErrorState] = useState(false);
   const [buttonState, setButtonState] = useState(false);
   const navigate = useNavigate();
   const inputEl = useRef(null);
+  const { logIn } = useAuth();
 
   const { t } = useTranslation();
 
@@ -34,9 +37,12 @@ const LoginPage = () => {
     onSubmit: async (values) => {
       try {
         setButtonState(true);
-        const response = await axios.post('api/v1/login', { username: values.username, password: values.password });
+        const data = { username: values.username, password: values.password };
+        const response = await axios.post(routes.login, data);
         const { token, username } = response.data;
         localStorage.setItem('userId', JSON.stringify({ token, username }));
+        const userId = JSON.parse(localStorage.getItem('userId'));
+        logIn(userId.username);
         navigate('/');
       } catch (e) {
         setButtonState(false);

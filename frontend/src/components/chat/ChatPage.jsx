@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { ToastContainer } from 'react-toastify';
@@ -11,10 +10,10 @@ import getModal from '../modals/modals';
 import { addModal } from '../../slices/modal';
 import Channels from './Channels';
 import Messages from './Messages';
+import routes from '../../routes';
 
 const ChatPage = () => {
-  const { loggedIn, logIn } = useAuth();
-  const navigate = useNavigate();
+  const { getAuthHeader } = useAuth();
   const modalState = useSelector((state) => state.modal.value);
 
   const channelsList = useSelector(channelsSelectors.selectAll);
@@ -26,24 +25,15 @@ const ChatPage = () => {
 
   const userId = JSON.parse(localStorage.getItem('userId'));
 
-  const getAuthHeader = () => {
-    if (userId && userId.token) {
-      return { Authorization: `Bearer ${userId.token}` };
-    }
-    return {};
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/v1/data', { headers: getAuthHeader() });
+        const response = await axios.get(routes.data, { headers: getAuthHeader(userId) });
         const { channels, messages } = response.data;
         dispatch(addChannels(channels));
         if (messages.length !== 0) {
           dispatch(fetchMessages(messages));
         }
-        logIn(userId.username);
-        navigate('/');
       } catch (e) {
         console.log(e);
       }
@@ -51,13 +41,6 @@ const ChatPage = () => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (loggedIn === false) {
-      navigate('/login');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loggedIn]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
