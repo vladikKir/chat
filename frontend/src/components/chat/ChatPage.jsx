@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { ToastContainer } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import { addChannels, channelsSelectors } from '../../slices/channels';
 import { fetchMessages, messagesSelectors } from '../../slices/messages';
@@ -15,6 +16,7 @@ import routes from '../../routes';
 const ChatPage = () => {
   const { getAuthHeader } = useAuth();
   const modalState = useSelector((state) => state.modal.value);
+  const navigate = useNavigate();
 
   const channelsList = useSelector(channelsSelectors.selectAll);
   const [curChannel, setChannel] = useState(channelsList.find((channel) => channel.id === 1));
@@ -36,6 +38,7 @@ const ChatPage = () => {
         }
       } catch (e) {
         console.log(e);
+        navigate(routes.loginPage);
       }
     };
     fetchData();
