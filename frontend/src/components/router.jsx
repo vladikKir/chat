@@ -1,5 +1,5 @@
-import { createBrowserRouter, useNavigate } from 'react-router-dom';
-import React, { useEffect } from 'react';
+import { createBrowserRouter, Navigate, useLocation } from 'react-router-dom';
+import React from 'react';
 import ChatPage from './chat/ChatPage';
 import LoginPage from './login/LoginPage';
 import ErrorPage from './ErrorPage';
@@ -7,26 +7,22 @@ import SignupPage from './SignupPage';
 import routes from '../routes';
 import useAuth from '../hooks/useAuth';
 
-const PrivateRoute = () => {
+const PrivateRoute = ({ children }) => {
   const { loggedIn } = useAuth();
-  const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(() => {
-    if (!loggedIn) {
-      console.log(loggedIn);
-      navigate('/login');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loggedIn]);
-
-  return <ChatPage />;
+  return (
+    loggedIn ? children : <Navigate to={routes.loginPage} state={{ from: location }} />
+  );
 };
 
 export default createBrowserRouter([
   {
     path: routes.chatPage,
     element: (
-      <PrivateRoute />
+      <PrivateRoute>
+        <ChatPage />
+      </PrivateRoute>
     ),
     errorElement: (
       <ErrorPage />
