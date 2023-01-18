@@ -1,4 +1,6 @@
-import { createBrowserRouter, Navigate, useLocation } from 'react-router-dom';
+import {
+  Navigate, Outlet, useLocation, Route, Routes,
+} from 'react-router-dom';
 import React from 'react';
 import ChatPage from './chat/ChatPage';
 import LoginPage from './login/LoginPage';
@@ -6,38 +8,33 @@ import ErrorPage from './ErrorPage';
 import SignupPage from './SignupPage';
 import routes from '../routes';
 import useAuth from '../hooks/useAuth';
+import NavBar from './NavBar';
 
-const PrivateRoute = ({ children }) => {
+const PrivateRoute = () => {
   const { loggedIn } = useAuth();
   const location = useLocation();
 
   return (
-    loggedIn ? children : <Navigate to={routes.loginPage} state={{ from: location }} />
+    loggedIn ? <ChatPage /> : <Navigate to={routes.loginPage} state={{ from: location }} />
   );
 };
 
-export default createBrowserRouter([
-  {
-    path: routes.chatPage,
-    element: (
-      <PrivateRoute>
-        <ChatPage />
-      </PrivateRoute>
-    ),
-    errorElement: (
-      <ErrorPage />
-    ),
-  },
-  {
-    path: routes.loginPage,
-    element: (
-      <LoginPage />
-    ),
-  },
-  {
-    path: routes.signupPage,
-    element: (
-      <SignupPage />
-    ),
-  },
-]);
+const Layout = () => (
+  <>
+    <NavBar />
+    <Outlet />
+  </>
+);
+
+const Wrapper = () => (
+  <Routes>
+    <Route path={routes.chatPage} element={<Layout />}>
+      <Route path={routes.chatPage} element={<PrivateRoute />} />
+      <Route path={routes.loginPage} element={<LoginPage />} />
+      <Route path={routes.signupPage} element={<SignupPage />} />
+      <Route path="*" element={<ErrorPage />} />
+    </Route>
+  </Routes>
+);
+
+export default Wrapper;
