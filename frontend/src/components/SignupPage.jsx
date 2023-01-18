@@ -47,11 +47,13 @@ const SignupPage = () => {
         const data = { username: values.username, password: values.password };
         const response = await axios.post(routes.signup, data);
         const { token, username } = response.data;
-        const userId = localStorage.setItem('userId', JSON.stringify({ token, username }));
+        localStorage.setItem('userId', JSON.stringify({ token, username }));
+        const userId = JSON.parse(localStorage.getItem('userId'));
         logIn(userId.username);
         navigate('/');
       } catch (e) {
         logIn(false);
+        console.error(e);
         setButtonState(false);
         if (e.code === 'ERR_NETWORK') {
           toast.error(t('notifies.networkError'));
