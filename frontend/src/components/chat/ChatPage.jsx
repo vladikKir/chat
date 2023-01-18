@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
-import { addChannels, channelsSelectors } from '../../slices/channels';
+import { addChannels, setCurChannel, channelsSelectors } from '../../slices/channels';
 import { fetchMessages, messagesSelectors } from '../../slices/messages';
 import getModal from '../modals/modals';
 import { addModal } from '../../slices/modal';
@@ -17,11 +17,11 @@ const ChatPage = () => {
   const { getAuthHeader } = useAuth();
   const modalState = useSelector((state) => state.modal.value);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const channelsList = useSelector(channelsSelectors.selectAll);
-  const [curChannel, setChannel] = useState(channelsList.find((channel) => channel.id === 1));
+  const curChannel = useSelector((state) => state.channels.curChannel);
   const messagesList = useSelector(messagesSelectors.selectAll);
-  const dispatch = useDispatch();
 
   const { t } = useTranslation('translation', { keyPrefix: 'chatPage.main' });
 
@@ -36,7 +36,7 @@ const ChatPage = () => {
           dispatch(fetchMessages(messages));
         }
       } catch (e) {
-        console.log(e);
+        console.error(e);
         navigate(routes.loginPage);
       }
     };
@@ -55,9 +55,17 @@ const ChatPage = () => {
               <span className="visually-hidden">+</span>
             </button>
           </div>
-          <Channels curChannel={curChannel} channelsList={channelsList} setChannel={setChannel} />
+          <Channels
+            curChannel={curChannel}
+            channelsList={channelsList}
+            setCurChannel={setCurChannel}
+          />
         </div>
-        <Messages curChannel={curChannel} messagesList={messagesList} />
+        <Messages
+          curChannel={curChannel}
+          messagesList={messagesList}
+          channelsList={channelsList}
+        />
         {getModal(modalState)}
       </div>
       <ToastContainer />

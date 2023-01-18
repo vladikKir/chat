@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AuthContext from '../contexts/AuthContext';
 
 const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(JSON.parse(localStorage.getItem('userId')));
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const logIn = (username) => setLoggedIn(username);
   const logOut = () => {

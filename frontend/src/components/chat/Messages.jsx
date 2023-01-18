@@ -4,7 +4,7 @@ import filter from 'leo-profanity';
 import SendMessageForm from './SendMessageForm';
 import useAuth from '../../hooks/useAuth';
 
-const Messages = ({ curChannel, messagesList }) => {
+const Messages = ({ curChannel, messagesList, channelsList }) => {
   const { loggedIn } = useAuth();
   const { t } = useTranslation('translation', { keyPrefix: 'chatPage.messages' });
 
@@ -26,18 +26,18 @@ const Messages = ({ curChannel, messagesList }) => {
           <p className="m-0">
             <b>
               #
-              {curChannel?.name}
+              {channelsList.find((channel) => channel.id === curChannel)?.name}
             </b>
           </p>
           <span className="text-muted">
             <span>{t('messagesCount')}</span>
             {messagesList
-              .filter((message) => message.channelId === curChannel.id).length}
+              .filter((message) => message.channelId === curChannel).length}
           </span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 " style={{ overflow: 'auto' }}>
           {messagesList
-            .filter((message) => message.channelId === curChannel.id)
+            .filter((message) => message.channelId === curChannel)
             .map((message) => (
               <div key={message.id} className="text-break mb-2">
                 <b>{message.userId}</b>
@@ -46,7 +46,7 @@ const Messages = ({ curChannel, messagesList }) => {
               </div>
             ))}
         </div>
-        <SendMessageForm loggedIn={loggedIn} channelId={curChannel?.id} />
+        <SendMessageForm loggedIn={loggedIn} channelId={curChannel} />
       </div>
     </div>
   );
